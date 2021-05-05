@@ -1,6 +1,5 @@
 from PIL import Image, ImageDraw, ImageFont
 import binascii
-import math
 import textwrap
 
 width = 2900
@@ -12,7 +11,7 @@ y_padding = 5
 font_path = "fonts/ApercuMono.ttf"
 
 def calc_font(d, s):
-    for font_size in reversed(range(40)):
+    for font_size in reversed(range(60)):
         font = ImageFont.truetype(font=font_path, size=font_size)
         char_w, char_h = font.getsize("a")
         chars_per_line = int(effective_width / char_w)
@@ -38,111 +37,29 @@ mtx = []
 offset = padding
 for i in range(0, len(byte_string), chars_per_line):
     chars = byte_string[i:i + chars_per_line]
-    if len(chars) < chars_per_line:
-        chars = chars + "0" * (chars_per_line - len(chars))
     mtx.append(chars)
     d.text((padding,offset), chars, font=dt['font'], fill="#444")
     offset += char_h+y_padding
 
-ox = 20
+ox = 4
 oy = 10
 
-# Q
-dot(d, mtx, dt, ox+1, oy+0)
-dot(d, mtx, dt, ox+2, oy+0)
-dot(d, mtx, dt, ox+3, oy+0)
-dot(d, mtx, dt, ox+0, oy+1)
-dot(d, mtx, dt, ox+4, oy+1)
-dot(d, mtx, dt, ox+0, oy+2)
-dot(d, mtx, dt, ox+4, oy+2)
-dot(d, mtx, dt, ox+0, oy+3)
-dot(d, mtx, dt, ox+4, oy+3)
-dot(d, mtx, dt, ox+0, oy+4)
-dot(d, mtx, dt, ox+2, oy+4)
-dot(d, mtx, dt, ox+4, oy+4)
-dot(d, mtx, dt, ox+0, oy+5)
-dot(d, mtx, dt, ox+3, oy+5)
-dot(d, mtx, dt, ox+4, oy+5)
-dot(d, mtx, dt, ox+1, oy+6)
-dot(d, mtx, dt, ox+2, oy+6)
-dot(d, mtx, dt, ox+3, oy+6)
-dot(d, mtx, dt, ox+4, oy+6)
+letters = [
+    # Q
+    [(1, 0), (2, 0), (3, 0), (0, 1), (4, 1), (0, 2), (4, 2), (0, 3), (4, 3), (0, 4), (2, 4), (4, 4), (0, 5), (3, 5), (4, 5), (1, 6), (2, 6), (3, 6), (4, 6)],
+    # U
+    [(0, 0), (4, 0), (0, 1), (4, 1), (0, 2), (4, 2), (0, 3), (4, 3), (0, 4), (4, 4), (0, 5), (4, 5), (1, 6), (2, 6), (3, 6)],
+    # I
+    [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (2, 1), (2, 2), (2, 3), (2, 4), (2, 5), (0, 6), (1, 6), (2, 6), (3, 6), (4, 6)],
+    # N
+    [(0, 0), (4, 0), (0, 1), (4, 1), (0, 2), (1, 2), (4, 2), (0, 3), (2, 3), (4, 3), (0, 4), (3, 4), (4, 4), (0, 5), (4, 5), (0, 6), (4, 6)],
+    # E
+    [(0, 0), (1, 0), (2, 0), (3, 0), (4, 0), (0, 1), (0, 2), (0, 3), (1, 3), (2, 3), (3, 3), (0, 4), (0, 5), (0, 6), (1, 6), (2, 6), (3, 6), (4, 6)],
+]
 
-# U
-ox+=7
-dot(d, mtx, dt, ox+0, oy+0)
-dot(d, mtx, dt, ox+4, oy+0)
-dot(d, mtx, dt, ox+0, oy+1)
-dot(d, mtx, dt, ox+4, oy+1)
-dot(d, mtx, dt, ox+0, oy+2)
-dot(d, mtx, dt, ox+4, oy+2)
-dot(d, mtx, dt, ox+0, oy+3)
-dot(d, mtx, dt, ox+4, oy+3)
-dot(d, mtx, dt, ox+0, oy+4)
-dot(d, mtx, dt, ox+4, oy+4)
-dot(d, mtx, dt, ox+0, oy+5)
-dot(d, mtx, dt, ox+4, oy+5)
-dot(d, mtx, dt, ox+1, oy+6)
-dot(d, mtx, dt, ox+2, oy+6)
-dot(d, mtx, dt, ox+3, oy+6)
+for letter in letters:
+    ox+=7
+    for (x, y) in letter:
+        dot(d, mtx, dt, ox+x, oy+y)
 
-# I
-ox+=7
-dot(d, mtx, dt, ox+0, oy+0)
-dot(d, mtx, dt, ox+1, oy+0)
-dot(d, mtx, dt, ox+2, oy+0)
-dot(d, mtx, dt, ox+3, oy+0)
-dot(d, mtx, dt, ox+4, oy+0)
-dot(d, mtx, dt, ox+2, oy+1)
-dot(d, mtx, dt, ox+2, oy+2)
-dot(d, mtx, dt, ox+2, oy+3)
-dot(d, mtx, dt, ox+2, oy+4)
-dot(d, mtx, dt, ox+2, oy+5)
-dot(d, mtx, dt, ox+0, oy+6)
-dot(d, mtx, dt, ox+1, oy+6)
-dot(d, mtx, dt, ox+2, oy+6)
-dot(d, mtx, dt, ox+3, oy+6)
-dot(d, mtx, dt, ox+4, oy+6)
-
-# N
-ox+=7
-dot(d, mtx, dt, ox+0, oy+0)
-dot(d, mtx, dt, ox+4, oy+0)
-dot(d, mtx, dt, ox+0, oy+1)
-dot(d, mtx, dt, ox+4, oy+1)
-dot(d, mtx, dt, ox+0, oy+2)
-dot(d, mtx, dt, ox+1, oy+2)
-dot(d, mtx, dt, ox+4, oy+2)
-dot(d, mtx, dt, ox+0, oy+3)
-dot(d, mtx, dt, ox+2, oy+3)
-dot(d, mtx, dt, ox+4, oy+3)
-dot(d, mtx, dt, ox+0, oy+4)
-dot(d, mtx, dt, ox+3, oy+4)
-dot(d, mtx, dt, ox+4, oy+4)
-dot(d, mtx, dt, ox+0, oy+5)
-dot(d, mtx, dt, ox+4, oy+5)
-dot(d, mtx, dt, ox+0, oy+6)
-dot(d, mtx, dt, ox+4, oy+6)
-
-# E
-ox+=7
-dot(d, mtx, dt, ox+0, oy+0)
-dot(d, mtx, dt, ox+1, oy+0)
-dot(d, mtx, dt, ox+2, oy+0)
-dot(d, mtx, dt, ox+3, oy+0)
-dot(d, mtx, dt, ox+4, oy+0)
-dot(d, mtx, dt, ox+0, oy+1)
-dot(d, mtx, dt, ox+0, oy+2)
-dot(d, mtx, dt, ox+0, oy+3)
-dot(d, mtx, dt, ox+1, oy+3)
-dot(d, mtx, dt, ox+2, oy+3)
-dot(d, mtx, dt, ox+3, oy+3)
-dot(d, mtx, dt, ox+0, oy+4)
-dot(d, mtx, dt, ox+0, oy+5)
-dot(d, mtx, dt, ox+0, oy+6)
-dot(d, mtx, dt, ox+1, oy+6)
-dot(d, mtx, dt, ox+2, oy+6)
-dot(d, mtx, dt, ox+3, oy+6)
-dot(d, mtx, dt, ox+4, oy+6)
-
-out.save('quine-hex.png')
+out.save('quine-hex.png', dpi=(300, 300))
