@@ -10,12 +10,12 @@ padding = 200
 effective_width = width - (padding*2)
 effective_height = height - (padding*2)
 y_padding = 5
-font_path = "fonts/ApercuMono.ttf"
+font_path = "fonts/nk57-monospace-no-rg.ttf"
 
 highlight_chance = 0.01
 
 def calc_font(d, s):
-    for font_size in reversed(range(40)):
+    for font_size in range(40, 0, -1):
         font = ImageFont.truetype(font=font_path, size=font_size)
         char_w, char_h = font.getsize("a")
         chars_per_line = int(effective_width / char_w)
@@ -73,4 +73,4 @@ for letter in letters:
     for (x, y) in letter:
         dot(d, mtx, dt, ox+x, oy+y)
 
-out.save('random-hex.png', dpi=(300, 300))
+out.save('images/random-hex.png', dpi=(300, 300))
