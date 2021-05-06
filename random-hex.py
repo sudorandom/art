@@ -24,7 +24,8 @@ def calc_font(d, s):
             return {'font': font, 'char_w': char_w, 'char_h': char_h, 'line_count': line_count, 'chars_per_line': chars_per_line}
 
 def dot(d, mtx, dt, x, y, fill="#eee"):
-    d.text((padding+(dt['char_w']*x), (padding+((y_padding+dt['char_h'])*y))), mtx[y][x], font=dt['font'], fill=fill)
+    x_offset, _ = dt['font'].getsize("".join(mtx[y][0:x]))
+    d.text((padding+x_offset, (padding+((y_padding+dt['char_h'])*y))), mtx[y][x], font=dt['font'], fill=fill)
 
 
 byte_string = "0x" + binascii.b2a_hex(os.urandom(5000)).decode("utf-8")

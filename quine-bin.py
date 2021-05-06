@@ -20,7 +20,8 @@ def calc_font(d, s):
             return {'font': font, 'char_w': char_w, 'char_h': char_h, 'line_count': line_count, 'chars_per_line': chars_per_line}
 
 def dot(d, mtx, dt, x, y):
-    d.text((padding+(dt['char_w']*x), (padding+((y_padding+dt['char_h'])*y))), mtx[y][x], font=dt['font'], fill="#eee")
+    x_offset, _ = dt['font'].getsize("".join(mtx[y][0:x]))
+    d.text((padding+x_offset, (padding+((y_padding+dt['char_h'])*y))), mtx[y][x], font=dt['font'], fill="#eee")
 
 byte_string = ""
 with open(__file__, "rb") as f:
