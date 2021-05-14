@@ -69,5 +69,5 @@ for letter in letters:
     for (x, y) in letter:
         dot(d, mtx, dt, ox+x, oy+y)
 
-out.save('images/quine-bin.png', dpi=(300, 300))
+out.save('images/quine-bin.jpg', dpi=(300, 300))
 
